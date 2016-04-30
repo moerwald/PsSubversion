@@ -12,4 +12,4 @@ The function Add-SvnWorkingCopyItem (Alias asvnwci) is a wrapper for "svn.exe ad
 The function Remove-SvnWorkingCopyItem (Alias rsvnwci) is a wrapper for "svn.exe delete" and removes files and directories from version control, this is scheduling them for deletion upon the next commit. (Items that have not been committed are immediately removed from the working copy.)
 The function Repair-SvnWorkingCopy fixes a working copy that has been modified by non-svn commands in terms of file addition and removal. The function identifies items that are not under version control and items that are missing. It puts non-versioned items under version control, and it removes missing items from version control (i.e. schedule for deletion upon next commit)
 
-The functions provide only basic functionality and work fine with the subversion command line client svn.exe from http://www.collab.net/downloads/subversion.
+The functions provide only basic functionality and work fine with the subversion command line client svn.exe from http://www.collab.net/downloads/subversion
