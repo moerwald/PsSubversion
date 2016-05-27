@@ -1,5 +1,5 @@
 #
-# Modulmanifest für das Modul "NewManifest"
+# Modulmanifest für das Modul "Subversion"
 #
 # Generiert von: Frank Peter Schultze
 #
@@ -12,7 +12,7 @@
 RootModule = 'Subversion.psm1'
 
 # Die Versionsnummer dieses Moduls
-ModuleVersion = '1.1'
+ModuleVersion = '1.2'
 
 # ID zur eindeutigen Kennzeichnung dieses Moduls
 GUID = '11a32e85-fd6f-4954-8bf5-6c710221dc74'
@@ -24,7 +24,7 @@ Author = 'Frank Peter Schultze'
 CompanyName = 'www.out-web.net'
 
 # Urheberrechtserklärung für dieses Modul
-Copyright = '(c) 2015 Frank Peter Schultze. All rights reserved.'
+Copyright = 'Frank Peter Schultze'
 
 # Beschreibung der von diesem Modul bereitgestellten Funktionen
 Description = 'Wrapper functions for Subversion svn.exe'
