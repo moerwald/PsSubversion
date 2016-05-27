@@ -1,26 +1,31 @@
 ﻿<#
-    .NOTES
-        Created on : 2014-07-03
-        Created by : Frank Peter Schultze, www.out-web.net
 
-    .SYNOPSIS
-        Wrapper function for "svn.exe status"
+.SYNOPSIS
+ Wrapper function for "svn.exe status"
 
-    .DESCRIPTION
-        Print the status of working copy files and directories.
+.DESCRIPTION
+ Get the status of working copy files and directories.
 
-    .EXAMPLE
-        Get-SvnWorkingCopy -Path .\myProject
+.EXAMPLE
+ Get-SvnWorkingCopy -Path .\myProject
+
 #>
-function Get-SvnWorkingCopy {
+function Get-SvnWorkingCopy
+{
     [CmdletBinding()]
     Param (
-        # The Path parameter identifies the directory of the working copy.
-        [Parameter(Mandatory=$true, Position=0)]
+        # Identifies the directory of the working copy.
+        [Parameter(ValueFromPipeline=$true)]
         [String]
-        $Path
+        $Path = '.'
     )
-    svn.exe status "$Path"
+
+    & $SvnBinary status `"$Path`" | Where-Object {$_ -match '^(?<Status>\S{1})*\s+(?<File>\S+)$'} | ForEach-Object {
+        [PSCustomObject]@{
+            Name   = $Matches.File
+            Status = $Matches.Status
+        }
+    }
 }
 
 Set-Alias -Name gsvnwc -Value Get-SvnWorkingCopy

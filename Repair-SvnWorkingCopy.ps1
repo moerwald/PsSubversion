@@ -1,43 +1,44 @@
 ﻿<#
-    .NOTES
-        Created on : 2014-07-03
-        Created by : Frank Peter Schultze, www.out-web.net
 
-    .SYNOPSIS
-        Fix a working copy that has been modified by non-svn commands in terms of adding and removing files.
+.SYNOPSIS
+ Fix a working copy that has been modified by non-svn commands in terms of
+ adding and removing files.
 
-    .DESCRIPTION
-        Identify items that are not under version control and items that are missing (i.e. removed by non-svn command).
-        Put non-versioned items under version control (i.e. schedule for adding upon next commit).
-        Remove missing items from version control (i.e. schedule for deletion upon next commit).
+.DESCRIPTION
+ Identify items that are not under version control and items that are missing
+ (i.e. removed by non-svn command). Put non-versioned items under version
+ control (i.e. schedule for adding upon next commit). Remove missing items from
+ version control (i.e. schedule for deletion upon next commit).
 
-    .EXAMPLE
-        Repair-SvnWorkingCopy -Path .\myProject
+.EXAMPLE
+ Repair-SvnWorkingCopy -Path .\myProject
+
 #>
-function Repair-SvnWorkingCopy {
-    [CmdletBinding()]
+function Repair-SvnWorkingCopy
+{
+    [CmdletBinding(SupportsShouldProcess=$true)]
     Param (
-        # The Path parameter identifies the directory of the working copy.
-        [Parameter(Mandatory=$true, Position=0)]
+        # Identifies the directory of the working copy.
+        [Parameter(ValueFromPipeline=$true)]
         [String]
-        $Path
+        $Path = '.'
     )
+    Begin
+    {
+    }
+    Process
+    {
+        $wc = $Path | Get-SvnWorkingCopy
 
-    Set-Variable -Name C_SVN_ITEM_MISSING -Value '!' -Option ReadOnly
-    Set-Variable -Name C_SVN_ITEM_UNKNOWN -Value '?' -Option ReadOnly
+        $wc | Where-Object {$_.Status -eq $SvnStatus.Missing} | ForEach-Object {
+            $_.Name | Remove-SvnWorkingCopyItem
+        }
 
-    Get-SvnWorkingCopy -Path $Path |
-        Where-Object {$_ -match '^(?<Status>\S)\s+(?<File>\S+)$'} |
-            ForEach-Object {
-                $Status = $Matches.Status
-                $File   = $Matches.File
-                switch ($Status) {
-                    $C_SVN_ITEM_MISSING {
-                        Remove-SvnWorkingCopyItem -Path "$File"
-                    }
-                    $C_SVN_ITEM_UNKNOWN {
-                        Add-SvnWorkingCopyItem -Path "$File"
-                    }
-                }
-            }
+        $wc | Where-Object {$_.Status -eq $SvnStatus.UnversionedItem} | ForEach-Object {
+            $_.Name | Add-SvnWorkingCopyItem
+        }
+    }
+    End
+    {
+    }
 }
