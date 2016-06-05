@@ -3,7 +3,7 @@
 #
 # Generiert von: Frank Peter Schultze
 #
-# Generiert am: 27.05.2016
+# Generiert am: 05.06.2016
 #
 
 @{
@@ -12,7 +12,7 @@
 RootModule = 'Subversion.psm1'
 
 # Die Versionsnummer dieses Moduls
-ModuleVersion = '1.2'
+ModuleVersion = '1.2.1'
 
 # ID zur eindeutigen Kennzeichnung dieses Moduls
 GUID = '11a32e85-fd6f-4954-8bf5-6c710221dc74'
@@ -79,7 +79,8 @@ CmdletsToExport = @()
 VariablesToExport = @()
 
 # Aus diesem Modul zu exportierende Aliase
-AliasesToExport = @()
+AliasesToExport = 'swsvnwc', 'udsvnwc', 'asvnwci', 'gsvnwc', 'ipsvn',
+               'nsvnwc', 'pbsvnwc', 'rsvnwci'
 
 # Aus diesem Modul zu exportierende DSC-Ressourcen
 # DscResourcesToExport = @()
@@ -108,7 +109,7 @@ PrivateData = @{
         # IconUri = ''
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'Fixed the module manifest'
+        ReleaseNotes = 'Added aliases to export'
 
         # External dependent modules of this module
         # ExternalModuleDependencies = ''
