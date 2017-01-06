@@ -20,7 +20,8 @@ function Get-SvnWorkingCopy
         $Path = '.'
     )
 
-    & $SvnBinary status `"$Path`" | Where-Object {$_ -match '^(?<Status>\S{1})*\s+(?<File>\S+)$'} | ForEach-Object {
+    $regex = '^(?<Status>\S{1})*\s+(?<File>.+)$'
+    & $SvnBinary status `"$Path`" | Where-Object {$_ -match $regex} | ForEach-Object {
         [PSCustomObject]@{
             Name   = $Matches.File
             Status = $Matches.Status

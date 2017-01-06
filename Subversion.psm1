@@ -13,7 +13,7 @@
 
 .NOTES
  Created on : 2014-07-03
- Updated on : 2016-05-27
+ Updated on : 2017-01-06
  Created by : Frank Peter Schultze, www.out-web.net
 
  DISCLAIMER: This PowerShell module is provided "as is", without any warranty,
@@ -63,11 +63,12 @@ function prompt
     if (Test-Path -Path .svn)
     {
         $wc = Get-SvnWorkingCopy
+        $UnversionedItem = @($wc | Where-Object {$_.Status -eq $SvnStatus.UnversionedItem}).Count
+        $Added = @($wc | Where-Object {$_.Status -eq $SvnStatus.Added}).Count
+        $Modified = @($wc | Where-Object {$_.Status -eq $SvnStatus.Modified}).Count
+        $wc = Get-SvnWorkingCopy
 
-        'SVN [{0}:{1}] [{2}:{3}] [{4}:{5}] {6}{7} ' -f $SvnStatus.UnversionedItem,
-            $wc.Where({$_.Status -eq $SvnStatus.UnversionedItem}).Count, $SvnStatus.Added,
-            $wc.Where({$_.Status -eq $SvnStatus.Added}).Count, $SvnStatus.Modified,
-            $wc.Where({$_.Status -eq $SvnStatus.Modified}).Count, $CurrentLocation, $EndOfPrompt
+        'SVN [{0}:{1}] [{2}:{3}] [{4}:{5}] {6}{7} ' -f $SvnStatus.UnversionedItem, $UnversionedItem, $SvnStatus.Added, $Added, $SvnStatus.Modified, $Modified, $CurrentLocation, $EndOfPrompt
     }
     else
     {
