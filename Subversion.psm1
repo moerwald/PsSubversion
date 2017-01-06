@@ -53,25 +53,24 @@ $SvnStatus = [PSCustomObject]@{
     Obstructed           = '~'
 }
 
-Get-ChildItem $PSScriptRoot\*.ps1 | ForEach-Object { . $_.FullName }
+Get-ChildItem -Path $PSScriptRoot -Filter *.ps1 | ForEach-Object {. $_.FullName}
 
+$orgPrompt = Get-Content -Path Function:\prompt
 function prompt
 {
-    $CurrentLocation = $executionContext.SessionState.Path.CurrentLocation
-    $EndOfPrompt     = '>' * ($nestedPromptLevel + 1)
-    
-    if (Test-Path -Path .svn)
-    {
-        $wc = Get-SvnWorkingCopy
-        $UnversionedItem = @($wc | Where-Object {$_.Status -eq $SvnStatus.UnversionedItem}).Count
-        $Added = @($wc | Where-Object {$_.Status -eq $SvnStatus.Added}).Count
-        $Modified = @($wc | Where-Object {$_.Status -eq $SvnStatus.Modified}).Count
-        $wc = Get-SvnWorkingCopy
+  $prompt = & $orgprompt
 
-        'SVN [{0}:{1}] [{2}:{3}] [{4}:{5}] {6}{7} ' -f $SvnStatus.UnversionedItem, $UnversionedItem, $SvnStatus.Added, $Added, $SvnStatus.Modified, $Modified, $CurrentLocation, $EndOfPrompt
-    }
-    else
-    {
-        'PS {0}{1} ' -f $CurrentLocation, $EndOfPrompt
-    }
+  if (Test-Path -Path .svn)
+  {
+    $wc = Get-SvnWorkingCopy
+    $UnversionedItem = @($wc | Where-Object {$_.Status -eq $SvnStatus.UnversionedItem}).Count
+    $Added = @($wc | Where-Object {$_.Status -eq $SvnStatus.Added}).Count
+    $Modified = @($wc | Where-Object {$_.Status -eq $SvnStatus.Modified}).Count
+
+    'SVN [{0}:{1}] [{2}:{3}] [{4}:{5}] {6}' -f $SvnStatus.UnversionedItem, $UnversionedItem, $SvnStatus.Added, $Added, $SvnStatus.Modified, $Modified, $prompt
+  }
+  else
+  {
+    $prompt
+  }
 }
