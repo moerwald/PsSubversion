@@ -1,5 +1,5 @@
 #
-# Modulmanifest für das Modul "Subversion"
+# Modulmanifest fï¿½r das Modul "Subversion"
 #
 # Generiert von: Frank Peter Schultze
 #
@@ -50,7 +50,7 @@ FunctionsToExport = 'prompt', 'Add-SvnWorkingCopyItem', 'Get-SvnWorkingCopy',
                'Import-SvnUnversionedFilePath', 'New-SvnWorkingCopy', 
                'Publish-SvnWorkingCopy', 'Remove-SvnWorkingCopyItem', 
                'Repair-SvnWorkingCopy', 'Switch-SvnWorkingCopy', 
-               'Update-SvnWorkingCopy'
+               'Update-SvnWorkingCopy', 'Get-SvnUnversionedItems'
 
 CmdletsToExport = @()
 
