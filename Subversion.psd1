@@ -50,7 +50,7 @@ FunctionsToExport = 'prompt', 'Add-SvnWorkingCopyItem', 'Get-SvnWorkingCopy',
                'Import-SvnUnversionedFilePath', 'New-SvnWorkingCopy', 
                'Publish-SvnWorkingCopy', 'Remove-SvnWorkingCopyItem', 
                'Repair-SvnWorkingCopy', 'Switch-SvnWorkingCopy', 
-               'Update-SvnWorkingCopy', 'Get-SvnUnversionedItems'
+               'Update-SvnWorkingCopy', 'Get-SvnUnversionedItems', 'Add-SvnUnversionedItems'
 
 CmdletsToExport = @()
 
