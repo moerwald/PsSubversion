@@ -66,8 +66,33 @@ function prompt
     $UnversionedItem = @($wc | Where-Object {$_.Status -eq $SvnStatus.UnversionedItem}).Count
     $Added = @($wc | Where-Object {$_.Status -eq $SvnStatus.Added}).Count
     $Modified = @($wc | Where-Object {$_.Status -eq $SvnStatus.Modified}).Count
+    $URL = ((svn info | sls "^Relative URL: *") -split " ")[2]
 
-    'SVN [{0}:{1}] [{2}:{3}] [{4}:{5}] {6}' -f $SvnStatus.UnversionedItem, $UnversionedItem, $SvnStatus.Added, $Added, $SvnStatus.Modified, $Modified, $prompt
+    Write-Host 'SVN ' -NoNewLine
+    Write-Host "[$($SvnStatus.UnversionedItem):$UnversionedItem] " -NoNewLine 
+
+    if ($Added -gt 0) {
+            Write-Host "[$($SvnStatus.Added):$Added] " -NoNewLine -ForeGroundColor Red 
+    }
+    else {
+            Write-Host "[$($SvnStatus.Added):$Added] " -NoNewLine 
+    }
+
+    if ($Modified -gt 0) {
+            Write-Host "[$($SvnStatus.Modified):$Modified] " -NoNewLine -ForeGroundColor Red 
+    }
+    else {
+            Write-Host "[$($SvnStatus.Modified):$Modified] " -NoNewLine 
+    }
+
+    Write-Host " - $URL -" -NoNewLine -ForeGroundColor Green
+
+
+    #$p = 'SVN [{0}:{1}] [{2}:{3}] [{4}:{5}] - {7} - {6}' -f $SvnStatus.UnversionedItem, $UnversionedItem, $SvnStatus.Added, $Added, $SvnStatus.Modified, $Modified, $prompt, $URL
+    #$p + "`r`n"
+    $p = ($prompt -replace "PS ", " ") -replace ">", " "
+    Write-Host $p -ForeGroundColor Cyan
+    ">"
   }
   else
   {
